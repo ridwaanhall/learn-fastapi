@@ -106,3 +106,29 @@ async def read_user_item(
             }
         )
     return item
+
+# required query parameters
+@app.get("/orders/{order_id}")
+async def read_order(order_id: str, needy: str): # needy is required query parameter str
+    order = {
+        "order_id": order_id,
+        "needy": needy
+    }
+    return order
+
+# required parameters as required, some having defaults, some entirely optional
+@app.get("/comments/{comment_id}")
+async def read_comment(
+    comment_id: int, # comment_id is path parameter int
+    required: str, # required is required query parameter str
+    skip: int = 0, # skip is query parameter int, default is 0
+    limit: int | None = None # limit is optional query parameter int or None, default is None
+):
+    comment = {
+        "comment_id": comment_id,
+        "required": required,
+        "skip": skip
+    }
+    if limit:
+        comment.update({"limit": limit})
+    return comment
