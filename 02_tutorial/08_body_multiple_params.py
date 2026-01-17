@@ -34,3 +34,18 @@ async def update_item(
     if item:
         result.update({"item": item})
     return result
+
+## Multiple body parameters
+
+class User(BaseModel):
+    username: str
+    full_name: str | None = None
+    
+@app.put("/users/{user_id}")
+async def update_user(
+    user_id: int,  # path parameter user_id of type int
+    item: Item,  # request body item of type Item
+    user: User  # request body user of type User
+):
+    result = {"user_id": user_id, "item": item, "user": user}
+    return result
