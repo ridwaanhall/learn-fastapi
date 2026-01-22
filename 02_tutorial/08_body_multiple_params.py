@@ -49,3 +49,53 @@ async def update_user(
 ):
     result = {"user_id": user_id, "item": item, "user": user}
     return result
+
+## singular values in body
+from fastapi import Body
+
+@app.put("/singular/{singular_id}")
+async def update_singular(
+    singular_id: int,
+    item: Item,
+    user: User,
+    importance: Annotated[int, Body()]
+):
+    result = {
+        "singular_id": singular_id,
+        "item": item,
+        "user": user,
+        "importance": importance,
+    }
+    return result
+
+## multiple body params and query
+@app.put("/multiple/{multiple_id}")
+async def update_multiple(
+    *,
+    multiple_id: int,
+    item: Item,
+    user: User,
+    importance: Annotated[int, Body()],
+    q: str | None = None # optional query parameter q of type str or None, default is None
+):
+    result = {
+        "multiple_id": multiple_id,
+        "item": item,
+        "user": user,
+        "importance": importance,
+    }
+    if q:
+        result.update({"q": q})
+    return result
+
+## embed a single body param
+@app.put("/embed/{embed_id}")
+async def update_embed(
+    embed_id: int,
+    item: Annotated[Item, Body(embed=True)]
+):
+    result = {
+        "embed_id": embed_id,
+        "item": item,
+    }
+    return result
