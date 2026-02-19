@@ -18,4 +18,8 @@ async def login(
     username: Annotated[str, Form()],
     password: Annotated[str, Form()]
 ):
-    return {"username": username, "password": password}
+    login_data = {
+        "username": username,
+        "password": password
+    }
+    return login_data
